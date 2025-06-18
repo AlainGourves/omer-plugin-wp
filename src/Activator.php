@@ -1,6 +1,6 @@
 <?php
 // classes/Activator.php
-namespace Inc;
+namespace DemiSelPlugin;
 
 /**
  * Gère les actions à l'activation du plugin.

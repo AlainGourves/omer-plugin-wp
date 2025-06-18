@@ -1,6 +1,6 @@
 <?php
 // classes/AdminPage.php
-namespace Inc;
+namespace DemiSelPlugin;
 
 /**
  * Gère la création de la page d'administration du plugin.

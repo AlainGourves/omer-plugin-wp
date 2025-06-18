@@ -22,24 +22,31 @@ define( 'DEMI_SEL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'DEMI_SEL_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 
-/**
- * Chargement des classes du plugin.
- * Nous allons simuler un autoloader simple ici. Pour un projet plus grand,
- * Composer avec PSR-4 serait fortement recommandé.
- */
-require_once DEMI_SEL_PLUGIN_PATH . 'classes/Activator.php';
-require_once DEMI_SEL_PLUGIN_PATH . 'classes/Deactivator.php';
-require_once DEMI_SEL_PLUGIN_PATH . 'classes/AdminPage.php';
-require_once DEMI_SEL_PLUGIN_PATH . 'classes/FrontendEnqueue.php';
-require_once DEMI_SEL_PLUGIN_PATH . 'classes/Plugin.php';
+// /**
+//  * Chargement des classes du plugin.
+//  * Nous allons simuler un autoloader simple ici. Pour un projet plus grand,
+//  * Composer avec PSR-4 serait fortement recommandé.
+//  */
+// require_once DEMI_SEL_PLUGIN_PATH . 'classes/Activator.php';
+// require_once DEMI_SEL_PLUGIN_PATH . 'classes/Deactivator.php';
+// require_once DEMI_SEL_PLUGIN_PATH . 'classes/AdminPage.php';
+// require_once DEMI_SEL_PLUGIN_PATH . 'classes/FrontendEnqueue.php';
+// require_once DEMI_SEL_PLUGIN_PATH . 'classes/Plugin.php';
 
+/**
+ * Chargement des classes du plugin via Composer PSR-4 autoloader.
+ * C'est la méthode recommandée pour une gestion propre des dépendances et de l'organisation du code.
+ */
+if ( file_exists( DEMI_SEL_PLUGIN_PATH . 'vendor/autoload.php' ) ) {
+    require_once DEMI_SEL_PLUGIN_PATH . 'vendor/autoload.php';
+}
 
 /**
  * Exécute le code à l'activation du plugin.
  * Crée les options par défaut ou les tables de base de données si nécessaire.
  */
 function activate_demi_sel_plugin() {
-    Inc\Activator::activate();
+    DemiSelPlugin\Activator::activate();
 }
 register_activation_hook( __FILE__, 'activate_demi_sel_plugin' );
 
@@ -48,7 +55,7 @@ register_activation_hook( __FILE__, 'activate_demi_sel_plugin' );
  * Nettoie les options, supprime les tables de base de données si nécessaire.
  */
 function deactivate_demi_sel_plugin() {
-    Inc\Deactivator::deactivate();
+    DemiSelPlugin\Deactivator::deactivate();
 }
 register_deactivation_hook( __FILE__, 'deactivate_demi_sel_plugin' );
 
@@ -57,7 +64,7 @@ register_deactivation_hook( __FILE__, 'deactivate_demi_sel_plugin' );
  * Initialise toutes les fonctionnalités et les hooks.
  */
 function run_demi_sel_plugin() {
-    $plugin = new Inc\Plugin();
+    $plugin = new DemiSelPlugin\Plugin();
     $plugin->run();
 }
 run_demi_sel_plugin();

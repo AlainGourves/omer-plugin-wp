@@ -1,6 +1,6 @@
 <?php
 // classes/FrontendEnqueue.php
-namespace Inc;
+namespace DemiSelPlugin;
 
 /**
  * Gère l'injection des scripts et des styles sur le frontend.
@@ -48,13 +48,21 @@ class FrontendEnqueue {
             true    // Charger dans le footer
         );
 
-        // Enqueue le script de votre application Vue.js
-        wp_enqueue_script(
+        // // Enqueue le script de votre application Vue.js
+        // wp_enqueue_script(
+        //     'demi-sel-plugin-script',
+        //     DEMI_SEL_PLUGIN_URL . 'public/js/vue-app.js',
+        //     [ 'vue-js-cdn' ], // Dépend de la librairie Vue.js
+        //     DEMI_SEL_PLUGIN_VERSION,
+        //     true    // Charger dans le footer
+        // );
+
+        // Enqueue le module JS de votre application Vue.js
+        wp_enqueue_script_module(
             'demi-sel-plugin-script',
             DEMI_SEL_PLUGIN_URL . 'public/js/vue-app.js',
             [ 'vue-js-cdn' ], // Dépend de la librairie Vue.js
-            DEMI_SEL_PLUGIN_VERSION,
-            true    // Charger dans le footer
+            DEMI_SEL_PLUGIN_VERSION
         );
 
         // Passer des données de WordPress à l'application Vue.js via wp_localize_script
@@ -90,6 +98,6 @@ class FrontendEnqueue {
         // ), $atts, 'demi_sel' );
 
         // Retourne la balise div où l'application Vue.js sera montée
-        return '<div id="demi-sel-root"></div>';
+        return '<div id="demi-sel-root"><div id="app"></div></div>';
     }
 }

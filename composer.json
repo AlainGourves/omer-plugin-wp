@@ -1,0 +1,22 @@
+{
+    "name": "demi-sel/demi-sel-plugin",
+    "description": "Intégration d'un composant Vue JS",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DemiSelPlugin\\": "src/"
+        }
+    },
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

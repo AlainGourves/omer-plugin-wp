@@ -1,6 +1,6 @@
 <?php
 // classes/Plugin.php
-namespace Inc;
+namespace DemiSelPlugin;
 
 /**
  * Classe principale du plugin.

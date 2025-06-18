@@ -1,6 +1,6 @@
 <?php
 // classes/Deactivator.php
-namespace Inc;
+namespace DemiSelPlugin;
 
 /**
  * Gère les actions à la désactivation du plugin.
