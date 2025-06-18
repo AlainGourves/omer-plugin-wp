@@ -21,18 +21,6 @@ define( 'DEMI_SEL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DEMI_SEL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'DEMI_SEL_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-
-// /**
-//  * Chargement des classes du plugin.
-//  * Nous allons simuler un autoloader simple ici. Pour un projet plus grand,
-//  * Composer avec PSR-4 serait fortement recommandé.
-//  */
-// require_once DEMI_SEL_PLUGIN_PATH . 'classes/Activator.php';
-// require_once DEMI_SEL_PLUGIN_PATH . 'classes/Deactivator.php';
-// require_once DEMI_SEL_PLUGIN_PATH . 'classes/AdminPage.php';
-// require_once DEMI_SEL_PLUGIN_PATH . 'classes/FrontendEnqueue.php';
-// require_once DEMI_SEL_PLUGIN_PATH . 'classes/Plugin.php';
-
 /**
  * Chargement des classes du plugin via Composer PSR-4 autoloader.
  * C'est la méthode recommandée pour une gestion propre des dépendances et de l'organisation du code.
