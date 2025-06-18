@@ -1,0 +1,32 @@
+/* public/css/vue-app.css */
+
+/* Styles pour l'application Vue.js */
+#vue-app-root {
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #42b983; /* Couleur de Vue.js */
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-family: 'Inter', sans-serif; /* Utilise la police Inter */
+}
+
+#vue-app-root h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#vue-app-root p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+#vue-app-root input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+    margin-top: 10px;
+}
