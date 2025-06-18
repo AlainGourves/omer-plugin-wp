@@ -61,7 +61,9 @@ demi-sel-plugin/
 │   └── Plugin.php
 ├── public/             # Fichiers CSS, JS de l'app Vue
 │   ├── css/
+│   │   └── vue-app.css
 │   └── js/
+│       └── vue-app.js
 ├── vendor/             # Dépendances Composer (non versionnées, générées)
 ├── demi-sel-plugin.php # Fichier principal du plugin
 ├── composer.json       # Fichier de configuration Composer
@@ -70,6 +72,8 @@ demi-sel-plugin/
 ├── README.md           # Ce fichier
 └── build-plugin.sh     # Script de build (pour générer les releases .zip)
 ```
+
+__Note__: les fichiers `vue-app.js` et `vue-app.css` correspondent aux fichiers de `/dist/assets/` générés après un build de l'app Vue.
 
 ### Script de Build
 
