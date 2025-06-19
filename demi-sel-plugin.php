@@ -3,7 +3,7 @@
  * Plugin Name:       Demi-sel Plugin
  * Plugin URI:        https://demi-sel.net
  * Description:       Un plugin WordPress pour intégrer une application Vue.js et gérer ses réglages.
- * Version:           0.2.0
+ * Version:           0.2.1
  * Author:            Alain Gourvès
  * Author URI:        alain.gourves@gmail.com
  * License:           GPL-2.0+

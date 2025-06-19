@@ -52,7 +52,7 @@ class AdminPage {
         // Enregistrer la section de réglages
         add_settings_section(
             'demi_sel_plugin_main_section',
-            __( 'Main Settings', 'demi-sel-plugin' ),
+            __( 'Réglages du plugin', 'demi-sel-plugin' ),
             function() {
                 echo '<p>' . __( 'Configure your Vue.js application settings here.', 'demi-sel-plugin' ) . '</p>';
             },
@@ -71,7 +71,7 @@ class AdminPage {
         // Enregistrer le champ 'message'
         add_settings_field(
             'demi_sel_plugin_message',
-            __( 'Message for Demi-sel', 'demi-sel-plugin' ),
+            __( 'Titre', 'demi-sel-plugin' ),
             [ $this, 'callback_message_field' ],
             'demi-sel-plugin',
             'demi_sel_plugin_main_section'
@@ -107,8 +107,7 @@ class AdminPage {
         $message = isset( $options['message'] ) ? esc_attr( $options['message'] ) : '';
         ?>
         <input type="text" name="demi_sel_plugin_settings[message]" id="plugin-message" value="<?php echo $message; ?>" class="regular-text" />
-        <button id="plugin-message-button" class="button button-secondary" type="button">Copier le texte</button>
-        <p class="description"><?php _e( 'This message will be displayed by the Demi-sel app.', 'demi-sel-plugin' ); ?></p>
+        <p class="description"><?php _e( 'Titre pour l\'app Demi-sel.', 'demi-sel-plugin' ); ?></p>
         <?php
     }
 
@@ -150,21 +149,6 @@ class AdminPage {
      * Rend le contenu HTML de la page d'administration.
      */
     public function render_admin_page() {
-        ?>
-        <div class="wrap">
-            <h1><?php esc_html_e( 'Demi-sel Plugin Settings', 'demi-sel-plugin' ); ?></h1>
-            <p>Nécessite WordPress 6.7 au minimum pour que les données puissent être transmises à l'app Vue.</p>
-            <form action="options.php" method="post">
-                <?php
-                // Affiche les champs cachés nécessaires pour les formulaires de réglages
-                settings_fields( 'demi-sel-plugin' );
-                // Affiche les sections et les champs des réglages
-                do_settings_sections( 'demi-sel-plugin' );
-                // Affiche le bouton de soumission
-                submit_button();
-                ?>
-            </form>
-        </div>
-        <?php
+        require_once DEMI_SEL_PLUGIN_PATH . 'views/admin-page.php';
     }
 }

@@ -64,6 +64,8 @@ demi-sel-plugin/
 │   └── js/
 │       └── vue-app.js
 ├── vendor/             # Dépendances Composer (non versionnées, générées)
+├── views/
+│   └── admin-page.js   # Template de la page Admin
 ├── demi-sel-plugin.php # Fichier principal du plugin
 ├── composer.json       # Fichier de configuration Composer
 ├── composer.lock       # Fichier de verrouillage des dépendances Composer
