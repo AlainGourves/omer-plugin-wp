@@ -85,9 +85,10 @@ class FrontendEnqueue
         );
 
         // Enqueue la bibliothèque Vue.js depuis un CDN (pour la simplicité de l'exemple)
+        // Note: 'vue.global.prod.js' en production, 'vue.global.js' sinon
         wp_enqueue_script(
             'vue-js-cdn',
-            'https://unpkg.com/vue@3/dist/vue.global.js',
+            'https://unpkg.com/vue@3/dist/vue.global.prod.js',
             [],
             '3.0.0', // Version de Vue
             true    // Charger dans le footer
