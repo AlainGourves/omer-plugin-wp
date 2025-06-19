@@ -10,6 +10,8 @@ class FrontendEnqueue
     private $shortcode_name;
     // Propriété pour indiquer si le shortcode a été détecté
     private $shortcode_detected = false;
+    // Handle du module JS de l'app
+    private $module_handle = 'demi-sel-plugin-script';
 
     // Constructeur de la classe
     public function __construct()
@@ -50,6 +52,9 @@ class FrontendEnqueue
         add_action('wp', [$this, 'check_shortcode_presence']);
         // Hook pour mettre en file d'attente les assets
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+
+        // Filtre pour passer les données au script module de l'app
+        add_filter( "script_module_data_{$this->module_handle}", array( $this, 'get_data_for_vue' ) );
     }
 
     /**
@@ -88,30 +93,33 @@ class FrontendEnqueue
             true    // Charger dans le footer
         );
 
-        // Passer des données de WordPress à l'application Vue.js via wp_localize_script
-        $data_for_vue = [
-            // 'ajax_url' => admin_url( 'admin-ajax.php' ), // Exemple : URL AJAX si vous avez besoin de communiquer avec le backend
-            'message'  => isset($options['message']) ? $options['message'] : 'Hello from WordPress!',
-            // Ajoutez d'autres données ici si nécessaire
-        ];
-        $obj = json_encode($data_for_vue);
-        $vueAppData = <<<EOT
-        <script>
-        console.log('From PHP to Vue!');
-        const vueAppData = $obj;
-        </script>
-        EOT;
-        // $vueAppData = "const vueAppData = {$obj};";
-        // wp_localize_script( 'demi-sel-plugin-script', 'vueAppData', $data_for_vue );
-        wp_add_inline_script('demi-sel-plugin-script', $vueAppData, 'before');
-
         // Enqueue le module JS de votre application Vue.js
         wp_enqueue_script_module(
-            'demi-sel-plugin-script',
+            $this->module_handle,
             DEMI_SEL_PLUGIN_URL . 'public/js/vue-app.js',
             ['vue-js-cdn'], // Dépend de la librairie Vue.js
             DEMI_SEL_PLUGIN_VERSION
         );
+    }
+
+    /**
+     * Filtre les données passées à l'application Vue.js via le hook script_module_data.
+     *
+     * @param array $data Les données initiales (un tableau vide par défaut).
+     * @return array Les données à transmettre au module JS.
+     */
+    public function get_data_for_vue( $data ) {
+        // Cette méthode sera appelée si le script module est en file d'attente.
+        // Ici, vous pouvez récupérer n'importe quelle donnée de WordPress.
+
+        // Exemple : Récupère les réglages du plugin
+        $plugin_options = get_option('demi_sel_plugin_settings', array());
+        $message_from_wp = isset( $plugin_options['message'] ) ? $plugin_options['message'] : 'Message par défaut de WordPress (si non configuré) !';
+
+        // Construisez votre tableau de données à passer
+        $data['message'] = $message_from_wp;
+
+        return $data; // Il est crucial de retourner le tableau de données
     }
 
     /**
@@ -120,6 +128,9 @@ class FrontendEnqueue
      *
      * @param array $atts Attributs du shortcode.
      * @return string Le HTML de l'élément racine si le plugin est activé, sinon une chaîne vide.
+     *
+     * !!!! Les données seront insérées dans la page dans un <script type="application/json">
+     * avec comme ID 'wp-script-module-data-demi-sel-plugin-script' !!!!
      */
     public function render_demi_sel_shortcode($atts)
     {
