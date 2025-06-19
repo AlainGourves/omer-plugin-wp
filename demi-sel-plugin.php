@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || die;
 
 // Définir les constantes du plugin
 define( 'DEMI_SEL_PLUGIN_VERSION', '0.1.0' );
+define( 'DEMI_SEL_PLUGIN_SHORTCODE', 'demi_sel' );
 define( 'DEMI_SEL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DEMI_SEL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'DEMI_SEL_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

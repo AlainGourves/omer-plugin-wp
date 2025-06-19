@@ -153,6 +153,7 @@ class AdminPage {
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Demi-sel Plugin Settings', 'demi-sel-plugin' ); ?></h1>
+            <p>Nécessite WordPress 6.7 au minimum pour que les données puissent être transmises à l'app Vue.</p>
             <form action="options.php" method="post">
                 <?php
                 // Affiche les champs cachés nécessaires pour les formulaires de réglages

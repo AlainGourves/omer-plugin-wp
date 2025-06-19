@@ -37,7 +37,6 @@ __Note__: Pour toutes les commandes `bash` par la suite, il est important d'util
     ```
     Cette commande va télécharger toutes les bibliothèques tierces nécessaires et optimiser l'autoloader.
 5.  **Activez le plugin**
-6.
 
 ## Développement
 
