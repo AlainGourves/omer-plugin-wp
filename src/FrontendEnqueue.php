@@ -115,10 +115,10 @@ class FrontendEnqueue
 
         // Exemple : Récupère les réglages du plugin
         $plugin_options = get_option('demi_sel_plugin_settings', array());
-        $message_from_wp = isset( $plugin_options['message'] ) ? $plugin_options['message'] : 'Message par défaut de WordPress (si non configuré) !';
 
-        // Construisez votre tableau de données à passer
-        $data['message'] = $message_from_wp;
+        foreach ($plugin_options as $key => $value) {
+            $data[$key] = $value;
+        }
 
         return $data; // Il est crucial de retourner le tableau de données
     }

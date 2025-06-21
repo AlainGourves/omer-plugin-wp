@@ -1,7 +1,7 @@
 {
     "name": "demi-sel/demi-sel-plugin",
     "description": "Intégration d'un composant Vue JS",
-    "version": "0.2.1",
+    "version": "0.2.4",
     "type": "wordpress-plugin",
     "require": {
         "php": ">=7.4",

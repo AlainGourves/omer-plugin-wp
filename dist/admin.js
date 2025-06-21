@@ -9,13 +9,14 @@ const copyShortcode = async () => {
   };
   try {
     if (navigator.clipboard) {
-      btnShortcode.textContent = "Processing...";
+      btnShortcode.textContent = "En cours...";
       await navigator.clipboard.writeText(inputShortcode.value);
     } else {
-      btnShortcode.textContent = "Error!";
+      btnShortcode.textContent = "Erreur !";
     }
     wait(500).then(resetBtn);
   } catch (e) {
+    resetBtn();
     (e) => console.error(e);
   }
 };
