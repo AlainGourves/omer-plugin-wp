@@ -1,4 +1,80 @@
 <?php
+$rest_api_base_url = get_rest_url(null, 'wp/v2/');
+/**
+ * Affiche la liste de tous les groupes de champs ACF enregistrés.
+ * Nécessite que ACF soit actif.
+ */
+function display_acf_field_groups_list() {
+    // Vérifier si ACF est actif
+    if ( ! function_exists( 'acf_get_field_groups' ) ) {
+        echo '<p>ACF n\'est pas actif ou la fonction acf_get_field_groups n\'est pas disponible.</p>';
+        return;
+    }
+
+    // Récupérer tous les groupes de champs
+    $field_groups = acf_get_field_groups();
+
+    if ( empty( $field_groups ) ) {
+        echo '<p>Aucun groupe de champs ACF trouvé.</p>';
+        return;
+    }
+
+    echo '<h2>Groupes de Champs ACF :</h2>';
+    echo '<ul>';
+    foreach ( $field_groups as $group ) {
+        echo '<li><strong>' . esc_html( $group['title'] ) . '</strong> (ID: ' . esc_html( $group['ID'] ) . ')</li>';
+    }
+    echo '</ul>';
+}
+
+/**
+ * Affiche la liste de tous les groupes de champs ACF et les champs qu'ils contiennent.
+ * Nécessite que ACF soit actif.
+ */
+function display_acf_field_groups_and_fields() {
+    // Vérifier si ACF est actif
+    if ( ! function_exists( 'acf_get_field_groups' ) || ! function_exists( 'acf_get_fields' ) ) {
+        echo '<p>ACF n\'est pas actif ou les fonctions nécessaires ne sont pas disponibles.</p>';
+        return;
+    }
+
+    // Récupérer tous les groupes de champs
+    $field_groups = acf_get_field_groups();
+
+    if ( empty( $field_groups ) ) {
+        echo '<p>Aucun groupe de champs ACF trouvé.</p>';
+        return;
+    }
+
+    echo '<h1>Détails des Groupes de Champs ACF :</h1>';
+
+    foreach ( $field_groups as $group ) {
+        echo '<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">';
+        echo '<h2>Groupe de Champs : <strong>' . esc_html( $group['title'] ) . '</strong> (ID: ' . esc_html( $group['ID'] ) . ', Clé: ' . esc_html( $group['key'] ) . ')</h2>';
+
+        // Récupérer les champs pour ce groupe de champs
+        // Note: acf_get_fields() prend la 'key' du groupe de champs en paramètre
+        $fields = acf_get_fields( $group['key'] );
+
+        if ( empty( $fields ) ) {
+            echo '<p>Aucun champ trouvé dans ce groupe.</p>';
+        } else {
+            echo '<h3>Champs :</h3>';
+            echo '<ul>';
+            foreach ( $fields as $field ) {
+                echo '<li>';
+                echo '<strong>Nom :</strong> ' . esc_html( $field['label'] ) . ' ';
+                echo '(Slug: <code>' . esc_html( $field['name'] ) . '</code>, ';
+                echo 'Type: <code>' . esc_html( $field['type'] ) . '</code>, ';
+                echo 'Clé: <code>' . esc_html( $field['key'] ) . '</code>)';
+                echo '</li>';
+            }
+            echo '</ul>';
+        }
+        echo '</div>';
+    }
+}
+
 /**
  * Fonction pour afficher une liste des Custom Post Types (CPT) enregistrés.
  */
@@ -29,8 +105,8 @@ $post_types = display_custom_post_types_list();
     <div>
         <label for="shortcode">Shortcode:
             <input type="text" id="shortcode" readonly value="<?php echo '[' . DEMI_SEL_PLUGIN_SHORTCODE . ']' ?>" />
+            <button id="copyShortcode" class="button button-secondary" type="button">Copier le shortcode</button>
         </label>
-        <button id="copyShortcode" class="button button-secondary" type="button">Copier le shortcode</button>
     </div>
     <form action="options.php" method="post">
         <?php
@@ -45,16 +121,9 @@ $post_types = display_custom_post_types_list();
 
     <h3 style="color:red;">Ce qui se trouve ci-dessous ne fonctionne pas (pour le moment) !</h3>
 
-    <?php
-    // Exemple pour inspecter un post type spécifique
-$post_type_object = get_post_type_object( 'recette' ); // Remplacez par le slug de votre post type
-
-if ( $post_type_object ) {
-    echo '<pre>';
-    print_r( $post_type_object->taxonomies ); // Affiche l'array des "taxonomies" selon cet objet
-    echo '</pre>';
-}
-    ?>
+    <?php echo $rest_api_base_url; ?>
+    <?php display_acf_field_groups_list(); ?>
+    <?php display_acf_field_groups_and_fields(); ?>
 
     <?php
     if ($post_types) {
