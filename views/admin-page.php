@@ -1,4 +1,40 @@
 <?php
+
+/**
+ * Affiche la liste de tous les groupes de champs ACF
+ */
+function display_acf_field_groups()
+{
+    // Vérifier si ACF est actif
+    if (! function_exists('acf_get_field_groups') || ! function_exists('acf_get_fields')) {
+        echo '<p>ACF n\'est pas actif ou les fonctions nécessaires ne sont pas disponibles.</p>';
+        return;
+    }
+
+    // Récupérer tous les groupes de champs
+    $field_groups = acf_get_field_groups();
+
+    if (empty($field_groups)) {
+        echo '<p>Aucun groupe de champs ACF trouvé.</p>';
+        return;
+    }
+
+
+    echo '<ul>';
+    foreach ($field_groups as $group) {
+?>
+        <li>
+            <label for="<?php echo $group['key']; ?>">
+                <input type="radio" name="field_group" value="<?php echo esc_attr($group['key']); ?>" id="<?php echo $group['key']; ?>" />
+                <?php echo esc_html($group['title']); ?>
+            </label>
+        </li>
+    <?php
+    }
+    echo '</ul>';
+}
+
+
 /**
  * Affiche la liste de tous les groupes de champs ACF et les champs qu'ils contiennent.
  * Nécessite que ACF soit actif.
@@ -19,139 +55,118 @@ function display_acf_field_groups_and_fields()
         return;
     }
 
-?>
+    ?>
     <h1>Détails des Groupes de Champs ACF :</h1>
-    <table class="wp_list_table table-view-list widefat fixed striped">
-        <thead>
-            <tr>
-                <td class="manage-column check-column"></td>
-                <th class="column-title column-primary">Nom</th>
-                <th class="column-title column-primary">Champs</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
+    <h2 style="color:red">Pas pris en compte pour le moment !</h2>
+    <?php
 
-            foreach ($field_groups as $group) {
-            ?>
-                <tr>
-                    <th class="check-column" scope="row">
-                        <input type="radio" name="field_group" value="<?php echo esc_attr($group['key']); ?>" />
-                    </th>
-                    <td class="columun-title column-primary">
-                        <strong>
-                            <?php echo esc_html($group['title']); ?>
-                        </strong>
-                    </td>
-                    <td>
-                        <?php
-                        // Récupérer les champs pour ce groupe de champs
-                        // Note: acf_get_fields() prend la 'key' du groupe de champs en paramètre
-                        $fields = acf_get_fields($group['key']);
+    foreach ($field_groups as $group) {
+    ?>
+        <h3>
+            <?php echo esc_html($group['title']); ?>
+        </h3>
+        <?php
+        // Récupérer les champs pour ce groupe de champs
+        // Note: acf_get_fields() prend la 'key' du groupe de champs en paramètre
+        $fields = acf_get_fields($group['key']);
 
-                        if (empty($fields)) {
-                            echo '<p>Aucun champ trouvé dans ce groupe.</p>';
-                        } else {
-                        ?>
+        if (empty($fields)) {
+            echo '<p>Aucun champ trouvé dans ce groupe.</p>';
+        } else {
+        ?>
 
-                            <table class="wp_list_table table-view-list widefat fixed champs">
-                                <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Type</th>
-                                        <th>Filtre</th>
-                                        <th>Tri</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+            <table class="wp_list_table table-view-list widefat fixed champs">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Filtre</th>
+                        <th>Tri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($fields as $field) {
+                    ?>
+                        <tr class="field-info">
+                            <td>
+                                <strong><?php echo esc_html($field['label']); ?></strong>
+                            </td>
+                            <td>
+                                <i>
                                     <?php
-                                    foreach ($fields as $field) {
-                                    ?>
-                                        <tr class="field-info">
-                                            <td>
-                                                <strong><?php echo esc_html($field['label']); ?></strong>
-                                            </td>
-                                            <td>
-                                                <i>
-                                                    <?php
-                                                    if ($field['name'] === 'titre' || $field['name'] === 'description' || $field['name'] === 'image') {
-                                                        echo 'obligatoire';
-                                                    } else {
-                                                        echo esc_html($field['type']);
-                                                    }
-                                                    ?>
-                                                </i>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($field['type'] === 'taxonomy') {
-                                                ?>
-                                                    <input type="checkbox" name="taxonomies" value="<?php echo esc_attr($field['name']); ?>" />
-                                                <?php
-                                                }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($field['type'] === 'number') {
-                                                ?>
-                                                    <input type="checkbox" name="tri" value="<?php echo esc_attr($field['name']); ?>" />
-                                                <?php
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        if ($field['type'] === 'taxonomy') {
-                                        ?>
-                                            <tr class="show-field-settings">
-                                                <td colspan="4">
-                                                    <div>
-                                                        <label for="taxonomy_<?php echo esc_attr($field['name']); ?>_label"><span>Etiquette <span class="mandatory">*</span></span>
-                                                            <input type="text" id="taxonomy_<?php echo esc_attr($field['name']); ?>_label" placeholder="Filtrer par..." />
-                                                        </label>
-                                                    </div>
-                                                    <div>
-                                                        <label for="taxonomy_<?php echo esc_attr($field['name']); ?>_default"><span>Valeur par défaut <span class="mandatory">*</span></span>
-                                                            <input type="text" id="taxonomy_<?php echo esc_attr($field['name']); ?>_default" placeholder="Tous les..." />
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                        }
-                                        if ($field['type'] === 'number') {
-                                        ?>
-                                            <tr class="show-field-settings">
-                                                <td colspan="4">
-                                                    <div>
-                                                        <label for="sort_<?php echo esc_attr($field['name']); ?>_label"><span>Etiquette <span class="mandatory">*</span></span>
-                                                            <input type="text" id="sort_<?php echo esc_attr($field['name']); ?>_label" placeholder="Trier par..." />
-                                                        </label>
-                                                    </div>
-                                                    <div>
-                                                        <label for="sort_<?php echo esc_attr($field['name']); ?>_default"><span>Valeur par défaut <span class="mandatory">*</span></span>
-                                                            <input type="text" id="sort_<?php echo esc_attr($field['name']); ?>_default" placeholder="Par défaut..." />
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                    <?php
-                                        }
+                                    if ($field['name'] === 'titre' || $field['name'] === 'description' || $field['name'] === 'image') {
+                                        echo 'obligatoire';
+                                    } else {
+                                        echo esc_html($field['type']);
                                     }
                                     ?>
-                                </tbody>
-                            </table>
-                            <?php
-                        }
+                                </i>
+                            </td>
+                            <td>
+                                <?php
+                                if ($field['type'] === 'taxonomy') {
+                                ?>
+                                    <input type="checkbox" name="taxonomies" value="<?php echo esc_attr($field['name']); ?>" />
+                                <?php
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if ($field['type'] === 'number') {
+                                ?>
+                                    <input type="checkbox" name="tri" value="<?php echo esc_attr($field['name']); ?>" />
+                                <?php
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <?php
+                        if ($field['type'] === 'taxonomy') {
                         ?>
-                    </td>
-                </tr>
-                <?php
-            }
-            ?>
-        </tbody>
-    </table>
+                            <tr class="show-field-settings">
+                                <td colspan="4">
+                                    <div>
+                                        <label for="taxonomy_<?php echo esc_attr($field['name']); ?>_label"><span>Etiquette <span class="mandatory">*</span></span>
+                                            <input type="text" id="taxonomy_<?php echo esc_attr($field['name']); ?>_label" placeholder="Filtrer par..." />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="taxonomy_<?php echo esc_attr($field['name']); ?>_default"><span>Valeur par défaut <span class="mandatory">*</span></span>
+                                            <input type="text" id="taxonomy_<?php echo esc_attr($field['name']); ?>_default" placeholder="Tous les..." />
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        if ($field['type'] === 'number') {
+                        ?>
+                            <tr class="show-field-settings">
+                                <td colspan="4">
+                                    <div>
+                                        <label for="sort_<?php echo esc_attr($field['name']); ?>_label"><span>Etiquette <span class="mandatory">*</span></span>
+                                            <input type="text" id="sort_<?php echo esc_attr($field['name']); ?>_label" placeholder="Trier par..." />
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="sort_<?php echo esc_attr($field['name']); ?>_default"><span>Valeur par défaut <span class="mandatory">*</span></span>
+                                            <input type="text" id="sort_<?php echo esc_attr($field['name']); ?>_default" placeholder="Par défaut..." />
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                    <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+    <?php
+        }
+    }
+    ?>
     <p><span class="mandatory">*</span> Champs obligatoire</p>
 <?php
 }
@@ -186,16 +201,13 @@ function display_acf_field_groups_and_fields()
         settings_fields('demi-sel-plugin');
         // Affiche les sections et les champs des réglages
         do_settings_sections('demi-sel-plugin');
+
         // Affiche le bouton de soumission
         submit_button();
         ?>
     </form>
-
-    <h3 style="color:red;">Ce qui se trouve ci-dessous ne fonctionne pas (pour le moment) !</h3>
-
-    <?php display_acf_field_groups_and_fields(); ?>
-
 </div>
 <?php
 
+display_acf_field_groups_and_fields();
 ?>

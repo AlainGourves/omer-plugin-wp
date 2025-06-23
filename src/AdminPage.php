@@ -82,6 +82,15 @@ class AdminPage
             'demi_sel_plugin_main_section'
         );
 
+        // Enregistrer le groupe de champs ACF sélectionné
+        add_settings_field(
+            'demi_sel_plugin_field_group',
+            __('Groupe de champs ACF sélectionné', 'demi-sel-plugin'),
+            [$this, 'callback_field_group_field'],
+            'demi-sel-plugin',
+            'demi_sel_plugin_main_section'
+        );
+
         // Enregistrer les réglages dans la base de données
         register_setting(
             'demi-sel-plugin', // Nom du groupe de réglages
@@ -97,7 +106,7 @@ class AdminPage
     {
         $options = get_option('demi_sel_plugin_settings');
         $message = isset($options['message']) ? esc_attr($options['message']) : '';
-    ?>
+?>
         <input type="text" name="demi_sel_plugin_settings[message]" id="plugin-message" value="<?php echo $message; ?>" class="regular-text" />
         <p class="description"><?php _e('Titre pour l\'app Demi-sel.', 'demi-sel-plugin'); ?></p>
     <?php
@@ -113,7 +122,35 @@ class AdminPage
     ?>
         <input type="number" name="demi_sel_plugin_settings[pagination]" id="plugin-pagination" value="<?php echo $pagination; ?>" class="regular-text" />
         <p class="description"><?php _e('Nombre d\'articles affichés dans la grille au chargement.'); ?></p>
+        <?php
+    }
+
+    /**
+     * Callback pour le champ 'field_group'.
+     */
+    public function callback_field_group_field()
+    {
+        // Récupérer tous les groupes de champs
+        $field_groups = acf_get_field_groups();
+
+        $options = get_option('demi_sel_plugin_settings');
+        $field_group = isset($options['field_group']) ? esc_attr($options['field_group']) : '';
+        if (empty($field_groups)) {
+            echo '<p>Aucun groupe de champs ACF trouvé.</p>';
+            return;
+        }
+        echo '<ul>';
+        foreach ($field_groups as $group) {
+        ?>
+            <li>
+                <label for="<?php echo $group['key']; ?>">
+                    <input type="radio" name="demi_sel_plugin_settings[field_group]" value="<?php echo esc_attr($group['key']); ?>" id="<?php echo $group['key']; ?>" <?php if ($group['key']===$field_group) echo "checked"; ?>/>
+                    <?php echo esc_html($group['title']); ?>
+                </label>
+            </li>
 <?php
+        }
+        echo '</ul>';
     }
 
     /**
@@ -134,6 +171,9 @@ class AdminPage
 
         // Nettoyage du champ 'pagination'
         $output['pagination'] = isset($input['pagination']) ? sanitize_text_field($input['pagination']) : '';
+
+        // Nettoyage du champ 'field_group'
+        $output['field_group'] = isset($input['field_group']) ? sanitize_text_field($input['field_group']) : '';
 
         return $output;
     }

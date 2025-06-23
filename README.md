@@ -51,6 +51,7 @@ __Note__: Pour toutes les commandes `bash` par la suite, il est important d'util
 ```
 demi-sel-plugin/
 ├── dist/
+│   └── admin.css       # CSS de la page de réglage du plugin
 │   └── admin.js        # JS de la page de réglage du plugin
 ├── src/                # Classes PHP du plugin (autoloadées via PSR-4)
 │   ├── Activator.php
@@ -60,9 +61,9 @@ demi-sel-plugin/
 │   └── Plugin.php
 ├── public/             # Fichiers CSS, JS de l'app Vue
 │   ├── css/
-│   │   └── vue-app.css
+│   │   └── vue-app.css # !important
 │   └── js/
-│       └── vue-app.js
+│       └── vue-app.js  # !important
 ├── vendor/             # Dépendances Composer (non versionnées, générées)
 ├── views/
 │   └── admin-page.js   # Template de la page Admin
