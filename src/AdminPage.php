@@ -64,15 +64,6 @@ class AdminPage
             'demi-sel-plugin' // Slug de la page
         );
 
-        // Enregistrer le champ 'api'
-        add_settings_field(
-            'demi_sel_plugin_api',
-            __('Titre', 'demi-sel-plugin'),
-            [$this, 'callback_api_field'],
-            'demi-sel-plugin',
-            'demi_sel_plugin_main_section'
-        );
-
         // Enregistrer le champ 'message'
         add_settings_field(
             'demi_sel_plugin_message',
@@ -97,22 +88,6 @@ class AdminPage
             'demi_sel_plugin_settings', // Nom de l'option stockée en DB
             [$this, 'sanitize_settings'] // Fonction de nettoyage/validation
         );
-    }
-
-    /**
-     * Callback pour le champ 'api' (URL de l'API REST).
-     */
-    public function callback_api_field()
-    {
-        $rest_api_base_url = get_rest_url(null, 'wp/v2/');
-        $options = get_option('demi_sel_plugin_settings');
-        $message = isset($options['api']) ? esc_attr($options['api']) : '';
-?>
-        <label for="plugin-api"><?php _e('URL de l\'API REST.', 'demi-sel-plugin'); ?>
-            <input type="text" name="demi_sel_plugin_settings[api]" id="plugin-api" value="<?php echo $rest_api_base_url; ?>" class="regular-text" />
-            <button id="copyURL" class="button button-secondary" type="button">Copier l'URL</button>
-        </label>
-    <?php
     }
 
     /**

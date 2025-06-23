@@ -1,0 +1,28 @@
+tr.show-field-settings {
+  display: none;
+}
+tr.show-field-settings.shown {
+  display: revert;
+}
+
+tr.show-field-settings div {
+  display:flex;
+  flex-direction: column;
+}
+
+tr.show-field-settings input[type=text] {
+    width: 100%;
+}
+
+tr.field-info.even{
+  background-color: #f1e1ea;
+}
+
+tr.field-info.odd{
+  background-color: #ddeff6;
+}
+
+.mandatory{
+  color:red;
+  font-weight: 600;
+}

@@ -111,7 +111,9 @@ class FrontendEnqueue
      */
     public function get_data_for_vue( $data ) {
         // Cette méthode sera appelée si le script module est en file d'attente.
-        // Ici, vous pouvez récupérer n'importe quelle donnée de WordPress.
+
+        // Passe l'URL de base de l'API REST
+        $data['rest_url'] = get_rest_url(null, 'wp/v2/');
 
         // Exemple : Récupère les réglages du plugin
         $plugin_options = get_option('demi_sel_plugin_settings', array());
