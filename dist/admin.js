@@ -53,6 +53,7 @@ const copyAssociatedValue = async (ev) => {
 // (ça ne marche pas avec le CSS seul parce qu'il y a des TR masqués qui foutent le bordel)
 const stripTable = () => {
   const tables = document.querySelectorAll("table.champs");
+  if (!tables) return;
   tables.forEach((table) => {
     const trs = table.querySelectorAll("tr.field-info");
     trs.forEach((tr, idx) => {
@@ -66,6 +67,7 @@ const stripTable = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (!btnShortcode || !btncopyRestApiBaseUrl) return;
   btnShortcode.addEventListener("click", copyAssociatedValue);
   btncopyRestApiBaseUrl.addEventListener("click", copyAssociatedValue);
   stripTable();

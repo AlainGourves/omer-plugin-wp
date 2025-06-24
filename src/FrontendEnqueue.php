@@ -78,7 +78,7 @@ class FrontendEnqueue
         // Enqueue le CSS de l'application Vue
         wp_enqueue_style(
             'demi-sel-plugin-style',
-            DEMI_SEL_PLUGIN_URL . 'public/css/vue-app.css',
+            DEMI_SEL_PLUGIN_URL . 'public/vue-app.css',
             [],
             DEMI_SEL_PLUGIN_VERSION,
             'all'
@@ -97,7 +97,7 @@ class FrontendEnqueue
         // Enqueue le module JS de votre application Vue.js
         wp_enqueue_script_module(
             $this->module_handle,
-            DEMI_SEL_PLUGIN_URL . 'public/js/vue-app.js',
+            DEMI_SEL_PLUGIN_URL . 'public/vue-app.js',
             ['vue-js-cdn'], // Dépend de la librairie Vue.js
             DEMI_SEL_PLUGIN_VERSION
         );
