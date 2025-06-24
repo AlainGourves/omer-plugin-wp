@@ -15,8 +15,8 @@ class Activator {
         // Exemple : Définir une option par défaut lors de l'activation
         if ( ! get_option( 'demi_sel_plugin_settings' ) ) {
             $default_settings = [
-                'enabled' => true,
                 'message' => 'Hello from Vue.js App!',
+                'pagination' => '4',
             ];
             add_option( 'demi_sel_plugin_settings', $default_settings );
         }

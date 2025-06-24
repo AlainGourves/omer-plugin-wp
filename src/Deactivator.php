@@ -13,7 +13,7 @@ class Deactivator {
      */
     public static function deactivate() {
         // Exemple : Supprimer une option lors de la désactivation
-        // delete_option( 'vue_app_plugin_settings' );
+        // delete_option( 'demi_sel_plugin_settings' );
 
         // Vider les règles de réécriture
         flush_rewrite_rules();

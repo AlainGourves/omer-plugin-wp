@@ -68,12 +68,6 @@ class FrontendEnqueue
         }
         // Récupère les réglages du plugin
         $options = get_option('demi_sel_plugin_settings');
-        $enabled = isset($options['enabled']) ? (bool) $options['enabled'] : false;
-
-        // N'injecte les assets que si le plugin est activé dans les réglages
-        if (! $enabled) {
-            return;
-        }
 
         // Enqueue le CSS de l'application Vue
         wp_enqueue_style(
@@ -139,12 +133,6 @@ class FrontendEnqueue
     {
         // Récupère les réglages du plugin
         $options = get_option('demi_sel_plugin_settings');
-        $enabled = isset($options['enabled']) ? (bool) $options['enabled'] : false;
-
-        // N'ajoute la racine que si le plugin est activé dans les réglages
-        if (! $enabled) {
-            return ''; // Retourne une chaîne vide si le plugin n'est pas activé via les réglages
-        }
 
         // Vous pouvez utiliser les attributs du shortcode ici si besoin
         // $atts = shortcode_atts( array(
