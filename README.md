@@ -60,10 +60,8 @@ demi-sel-plugin/
 │   ├── FrontendEnqueue.php
 │   └── Plugin.php
 ├── public/             # Fichiers CSS, JS de l'app Vue
-│   ├── css/
-│   │   └── vue-app.css # !important
-│   └── js/
-│       └── vue-app.js  # !important
+│   └── vue-app.css     # !important
+│   └── vue-app.js      # !important
 ├── vendor/             # Dépendances Composer (non versionnées, générées)
 ├── views/
 │   └── admin-page.js   # Template de la page Admin
